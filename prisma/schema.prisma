@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Coupon {
+  id                String              @id @default(uuid())
+  code              String            @unique
+  baseDiscount      Float             // Desconto base aplicável
+  additionalDiscount Float             // Desconto adicional por cada produto extra
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  productTypes      CouponProductType[]
+}
+
+model ProductType {
+   id                String              @id @default(uuid())
+  name              String            @unique
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  couponProductTypes CouponProductType[]
+}
+
+model CouponProductType {
+   id                String              @id @default(uuid())
+  couponId          String
+  productTypeId     String
+
+  coupon            Coupon            @relation(fields: [couponId], references: [id])
+  productType       ProductType       @relation(fields: [productTypeId], references: [id])
+
+  @@unique([couponId, productTypeId])
+  @@unique([productTypeId]) // Isso garante que um tipo de produto só possa ter um cupom associado.
+}
