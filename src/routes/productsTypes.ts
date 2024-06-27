@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
-import { z } from "zod";
+import { productTypeBodySchema } from "../schema/productTypeSchema";
+import { idParamsSchema } from "../schema/idParamsSchema";
 
 export async function productsTypesRoutes(app: FastifyInstance) {
   app.get("/products/types", async (request, reply) => {
@@ -17,13 +18,9 @@ export async function productsTypesRoutes(app: FastifyInstance) {
 
   app.post("/products/types", async (request, reply) => {
     try {
-      const bodySchema = z.object({
-        name: z.string(),
-        createdAt: z.date().optional(),
-        updatedAt: z.date().optional(),
-      });
-
-      const { name, createdAt, updatedAt } = bodySchema.parse(request.body);
+      const { name, createdAt, updatedAt } = productTypeBodySchema.parse(
+        request.body
+      );
 
       const productsTypes = await prisma.productType.create({
         data: {
@@ -41,19 +38,11 @@ export async function productsTypesRoutes(app: FastifyInstance) {
 
   app.put("/products/types/:id", async (request, reply) => {
     try {
-      const paramsSchema = z.object({
-        id: z.string().uuid(),
-      });
+      const { id } = idParamsSchema.parse(request.params);
 
-      const bodySchema = z.object({
-        name: z.string(),
-        createdAt: z.date().optional(),
-        updatedAt: z.date().optional(),
-      });
-
-      const { id } = paramsSchema.parse(request.params);
-
-      const { name, createdAt, updatedAt } = bodySchema.parse(request.body);
+      const { name, createdAt, updatedAt } = productTypeBodySchema.parse(
+        request.body
+      );
 
       const productsTypes = await prisma.productType.update({
         where: {
@@ -75,11 +64,7 @@ export async function productsTypesRoutes(app: FastifyInstance) {
 
   app.delete("/products/types/:id", async (request, reply) => {
     try {
-      const paramsSchema = z.object({
-        id: z.string().uuid(),
-      });
-
-      const { id } = paramsSchema.parse(request.params);
+      const { id } = idParamsSchema.parse(request.params);
 
       await prisma.productType.delete({
         where: {

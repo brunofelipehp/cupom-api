@@ -1,6 +1,8 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
-import { z } from "zod";
+import { couponBodySchema } from "../schema/couponSchema";
+import { idParamsSchema } from "../schema/idParamsSchema";
+import { couponProductTypeBodySchema } from "../schema/couponProductTypeSchema";
 
 export async function couponsProductRoutes(app: FastifyInstance) {
   app.get("/coupons", async (request, reply) => {
@@ -15,13 +17,9 @@ export async function couponsProductRoutes(app: FastifyInstance) {
     }
   });
 
-  app.get("/apply-couponsz", async (request, reply) => {
+  app.get("/apply-coupons", async (request, reply) => {
     try {
-      const bodySchema = z.object({
-        code: z.string(),
-      });
-
-      const { code } = bodySchema.parse(request.params);
+      const { code } = couponProductTypeBodySchema.parse(request.body);
 
       const coupons = await prisma.coupon.findUnique({
         where: {
@@ -37,22 +35,10 @@ export async function couponsProductRoutes(app: FastifyInstance) {
 
   app.put("/coupons/:id", async (request, reply) => {
     try {
-      const paramsSchema = z.object({
-        id: z.string().uuid(),
-      });
-
-      const bodySchema = z.object({
-        code: z.string(),
-        baseDiscount: z.number(),
-        additionalDiscount: z.number(),
-        createdAt: z.date().optional(),
-        updatedAt: z.date().optional(),
-      });
-
-      const { id } = paramsSchema.parse(request.params);
+      const { id } = idParamsSchema.parse(request.params);
 
       const { code, baseDiscount, additionalDiscount, createdAt, updatedAt } =
-        bodySchema.parse(request.body);
+        couponBodySchema.parse(request.body);
 
       const productsTypes = await prisma.coupon.update({
         where: {
@@ -76,22 +62,7 @@ export async function couponsProductRoutes(app: FastifyInstance) {
 
   app.delete("/coupons/:id", async (request, reply) => {
     try {
-      const paramsSchema = z.object({
-        id: z.string().uuid(),
-      });
-
-      const bodySchema = z.object({
-        code: z.string(),
-        baseDiscount: z.number(),
-        additionalDiscount: z.number(),
-        createdAt: z.date().optional(),
-        updatedAt: z.date().optional(),
-      });
-
-      const { id } = paramsSchema.parse(request.params);
-
-      const { code, baseDiscount, additionalDiscount, createdAt, updatedAt } =
-        bodySchema.parse(request.body);
+      const { id } = idParamsSchema.parse(request.params);
 
       const productsTypes = await prisma.coupon.delete({
         where: {
