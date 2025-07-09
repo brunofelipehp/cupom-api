@@ -10,7 +10,7 @@ export const getAllProductTypes = async (request, reply) => {
 
     return reply.code(200).send(productsTypes);
   } catch (error) {
-    console.log(error);
+     return reply.code(400).send({ message: 'An error occurred while fetching.', error: error || '' });
   }
 };
 
@@ -30,7 +30,7 @@ export const createProductTypes = async (request, reply) => {
 
     return reply.code(201).send(productsTypes);
   } catch (error) {
-    console.log(error);
+     return reply.code(400).send({ message: 'An error occurred while fetching.', error: error || '' });
   }
 };
 
@@ -72,8 +72,7 @@ export const deleteProductTypes = async (request, reply) => {
 
     return reply.code(202).send("Category deleted with success");
   } catch (error) {
-    console.log(error);
 
-    return reply.code(404);
+  return reply.code(400).send({ message: 'An error occurred while fetching.', error: error || '' });
   }
 };
