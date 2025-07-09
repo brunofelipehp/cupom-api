@@ -6,7 +6,6 @@ export const getAllCoupons = async (reply, request) => {
   try {
     const coupons = await prisma.coupon.findMany();
 
-    console.log(coupons);
 
     return reply.code(200).send(coupons);
   } catch (error) {
