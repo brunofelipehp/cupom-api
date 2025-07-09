@@ -55,7 +55,6 @@ export const createApplyCoupon = async (request, reply) => {
 
     return reply.code(201).send({ newAssociation, totalDiscount });
   } catch (error) {
-    console.log(error);
     return reply.code(400).send("Error em criar associação de cupom");
   }
 };
