@@ -9,7 +9,8 @@ export const getAllCoupons = async (reply, request) => {
 
     return reply.code(200).send(coupons);
   } catch (error) {
-    console.log(error);
+      return reply.code(400).send({ message: 'An error occurred while fetching the cupons.', error: error || '' });
+
   }
 };
 
@@ -30,7 +31,7 @@ export const createCoupon = async (reply, request) => {
 
     return reply.code(201).send(coupons);
   } catch (error) {
-    console.log(error);
+    return reply.code(400).send({ message: 'An error occurred while fetching the cupons.', error: error || '' });
   }
 };
 
@@ -57,7 +58,7 @@ export const updateCoupon = async (request, reply) => {
     return reply.code(204).send(productsTypes);
   } catch (error) {
     console.log(error);
-    return reply.code(404);
+    return reply.code(400).send({ message: 'An error occurred while fetching the cupons.', error: error || '' });
   }
 };
 
@@ -73,8 +74,6 @@ export const deleteCoupon = async (request, reply) => {
 
     return reply.code(202).send("Category deleted with success");
   } catch (error) {
-    console.log(error);
-
-    return reply.code(404);
+  return reply.code(400).send({ message: 'An error occurred while fetching the cupons.', error: error || '' });
   }
 };
