@@ -1,6 +1,6 @@
-# 🧠 Cupom-api
+# 🎟️ Cupom API
 
-> Breve descrição do projeto. Ex: API REST para gerenciamento de usuários, produtos ou qualquer outra funcionalidade.
+API REST para gerenciamento de cupons promocionais, desenvolvida com Node.js, TypeScript, Prisma e Zod.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -8,18 +8,25 @@
 - [TypeScript](https://www.typescriptlang.org/)
 - [Prisma ORM](https://www.prisma.io/)
 - [Zod](https://zod.dev/) — Validações de dados
-- [Express](https://expressjs.com/) ou [Fastify](https://www.fastify.io/) *(dependendo do projeto)*
-- [dotenv](https://www.npmjs.com/package/dotenv) — Variáveis de ambiente
+- [Fastify](https://www.fastify.io/)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [SQLite](https://www.sqlite.org/) — Banco de dados leve e local
 
-## 📁 Estrutura de Pastas (Exemplo)
+## 📁 Estrutura de Pastas
+
 
 ```
-src/
-├── controllers/
-├── lib/
-├── routes/          
-├── schema/  # Zod schemas
-├── server.ts
+cupom-api/
+├── prisma/
+├── src/
+│   ├── controllers/
+│   ├── lib/
+│   ├── routes/
+│   ├── schema/
+│   └── server.ts
+├── package-lock.json
+├── Readme.md
+└── .gitIgnore
 ```
 
 ## ⚙️ Configuração do Ambiente
@@ -27,8 +34,8 @@ src/
 1. **Clone o repositório**
 
 ```bash
-git clone https://github.com/seu-usuario/seu-projeto.git
-cd seu-projeto
+git clone https://github.com/brunofelipehp/cupom-api.git
+cd cupom-api
 ```
 
 2. **Instale as dependências**
@@ -41,12 +48,10 @@ npm install
 
 3. **Configure as variáveis de ambiente**
 
-Crie um arquivo `.env` com base no `.env.example`:
+Crie um arquivo `.env`:
 
 ```env
-DATABASE_URL="postgresql://usuario:senha@localhost:5432/database"
-PORT=3333
-JWT_SECRET=suachavesecreta
+DATABASE_URL="file:./dev.db"
 ```
 
 4. **Execute as migrações do banco**
@@ -63,21 +68,15 @@ pnpm dev
 npm run dev
 ```
 
-## 🧪 Testes
-
-*Incluir aqui se utilizar alguma biblioteca de testes, como Jest ou Vitest.*
-
-```bash
-pnpm test
-```
 
 ## 🛡️ Validações com Zod
 
-Todos os dados de entrada (ex: corpo da requisição) são validados utilizando `zod` para garantir integridade e segurança.
+Todos os dados de entrada são validados utilizando `zod`, garantindo segurança e integridade.
 
-## 🔐 Autenticação (se aplicável)
+## 📌 Observações
 
-Este projeto utiliza autenticação baseada em JWT. As rotas protegidas requerem um token válido no header `Authorization`.
+- Este projeto utiliza Fastify, que oferece alta performance para criação de APIs modernas.
+- Prisma é utilizado como ORM para facilitar o acesso e manipulação dos dados com SQLite.
 
 ## 📝 Licença
 
@@ -85,4 +84,4 @@ Este projeto está licenciado sob a licença MIT.
 
 ---
 
-Desenvolvido com 💻 por [Seu Nome](https://github.com/seu-usuario)
+Desenvolvido com 💻 por [Bruno Felipe](https://github.com/brunofelipehp)
